@@ -1,41 +1,24 @@
 "use client";
 
 import { motion } from "framer-motion";
-import PrimaryButton from "./ui/PrimaryButton";
 import { ArrowRight } from "lucide-react";
+import PrimaryButton from "./ui/PrimaryButton";
+import { fadeUp, stagger, ease } from "../lib/motion";
 
-// ─── Animation Config ─────────────────────────────────────────────────────────
-
-const fadeUp = (delay: number) => ({
-  initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.7, ease: "easeInOut" as const, delay },
-});
-
-// ─── Sub-components ───────────────────────────────────────────────────────────
+const nameLines = [
+  { text: "ZI", accent: false },
+  { text: "DA", accent: false },
+  { text: "NE", accent: true },
+];
 
 function AvailableBadge() {
   return (
-    <motion.div {...fadeUp(0)} className="inline-flex items-center gap-2 font-mono text-[11px] text-[#10a37f] tracking-[0.12em] uppercase mb-7 before:content-[''] before:w-5 before:h-px before:bg-[#10a37f]">
+    <motion.div
+      variants={fadeUp}
+      className="inline-flex items-center gap-2 font-mono text-[11px] text-[#10a37f] tracking-[0.12em] uppercase mb-7 before:content-[''] before:w-5 before:h-px before:bg-[#10a37f]"
+    >
       Available for new projects
     </motion.div>
-  );
-}
-
-function HeroHeading() {
-  return (
-    <motion.h1 {...fadeUp(0.1)} className="font-bebas text-[clamp(80px,12vw,148px)] leading-[0.92] text-[#f0f0f5] tracking-[-0.01em]">
-      ZI<br />DA<br />
-      <span className="text-transparent [-webkit-text-stroke:1.5px_#10a37f]">NE</span>
-    </motion.h1>
-  );
-}
-
-function HeroBody() {
-  return (
-    <motion.p {...fadeUp(0.2)} className="text-[17px] leading-[1.7] text-[#c8c8d8] max-w-95 mb-10">
-      I build web products and digital systems for businesses that want to move faster — clean interfaces, solid backends, no overhead.
-    </motion.p>
   );
 }
 
@@ -44,8 +27,8 @@ function ScrollIndicator() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ delay: 1, duration: 0.7 }}
-      className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 font-mono text-[10px] text-[#525260] tracking-widest uppercase"
+      transition={{ ...ease, delay: 1.2 }}
+      className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 font-mono text-[10px] text-[#525260] tracking-widest uppercase"
     >
       <div className="w-px h-10 bg-linear-to-b from-[#525260] to-transparent animate-[scrollPulse_2s_ease-in-out_infinite]" />
       <span>scroll</span>
@@ -53,31 +36,64 @@ function ScrollIndicator() {
   );
 }
 
-// ─── Hero ─────────────────────────────────────────────────────────────────────
-
 export default function Hero() {
   return (
     <div className="relative">
       <section
         id="hero"
-        className="min-h-screen grid grid-cols-1 md:grid-cols-2 items-stretch pt-24 pb-20 px-8 max-w-275 mx-auto gap-10"
+        className="h-screen flex items-end pb-24 px-8 max-w-275 mx-auto gap-8"
       >
-        {/* Left — heading */}
-        <div className="self-end">
+        {/* Left — fixed anchor, pb-1 aligns NE baseline to button bottom */}
+        <motion.div
+          className="shrink-0 translate-y-5"
+          initial="hidden"
+          animate="visible"
+          variants={stagger}
+        >
           <AvailableBadge />
-          <HeroHeading />
-        </div>
-
-        {/* Right — body + CTA */}
-        <motion.div {...fadeUp(0.3)} className="self-end pb-2 flex flex-col items-end md:items-start">
-          <HeroBody />
-          <PrimaryButton href="#contact">
-            Start a project
-            <ArrowRight size={16} />
-          </PrimaryButton>
+          <h1 className="font-bebas text-[148px] leading-[0.92] tracking-[-0.01em]">
+            {nameLines.map(({ text, accent }, i) => (
+              <motion.span
+                key={text}
+                className={`block ${
+                  accent
+                    ? "text-transparent [-webkit-text-stroke:1.5px_#10a37f]"
+                    : "text-[#f0f0f5]"
+                }`}
+                initial={{ opacity: 0, y: 32 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ ...ease, delay: 0.15 + i * 0.12 }}
+              >
+                {text}
+              </motion.span>
+            ))}
+          </h1>
         </motion.div>
 
+        {/* Right — button is nowrap so it defines w-min, p stretches to match */}
+        <div className="flex-1 min-w-fit flex flex-col items-end">
+          <div className="w-min flex flex-col items-stretch gap-8">
+            <motion.p
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...ease, delay: 0.5 }}
+              className="w-full text-[16px] leading-[1.8] text-[#c8c8d8] text-justify"
+            >
+              Clean interfaces, solid backends, no overhead.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...ease, delay: 0.6 }}
+            >
+              <PrimaryButton href="#contact">
+                Start a project <ArrowRight size={16} />
+              </PrimaryButton>
+            </motion.div>
+          </div>
+        </div>
       </section>
+
       <ScrollIndicator />
     </div>
   );

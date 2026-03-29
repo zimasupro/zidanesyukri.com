@@ -62,8 +62,8 @@ export default function Cursor() {
 
   return (
     <>
-      <div ref={cursorRef} className="w-2 h-2 bg-[#10a37f] rounded-full fixed pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 transition-[transform,width,height] duration-100 md:block hidden" />
-      <div ref={ringRef} className="w-9 h-9 border border-[rgba(16,163,127,0.4)] rounded-full fixed pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2 transition-[left,top,width,height,border-color] duration-[120ms] md:block hidden" />
+      <div ref={cursorRef} className="w-2 h-2 bg-[#10a37f] rounded-full fixed pointer-events-none z-9999 -translate-x-1/2 -translate-y-1/2 transition-[transform,width,height] duration-100 md:block hidden" />
+      <div ref={ringRef} className="w-9 h-9 border border-[rgba(16,163,127,0.4)] rounded-full fixed pointer-events-none z-9998 -translate-x-1/2 -translate-y-1/2 transition-[left,top,width,height,border-color] duration-120 md:block hidden" />
     </>
   );
 }
