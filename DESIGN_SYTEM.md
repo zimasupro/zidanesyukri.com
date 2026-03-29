@@ -37,8 +37,8 @@ All spacing is a multiple of 8. No arbitrary values.
 - **Max width:** 1100px (`max-w-275`)
 - **Horizontal padding:** 32px (`px-8`) on every section
 - **Navbar height:** 72px
-- **Scroll offset:** `scroll-padding-top: 72px` on `:root` — handles all anchor navigation automatically
-- **Sections:** `h-screen` — each section fills exactly one viewport
+- **Section height:** `h-[calc(100vh-var(--navbar-height))]` — each section fills exactly the visible viewport below the navbar
+- **Scroll offset:** navbar scroll handled via JS offset `-72px` in `handleNav`
 
 ---
 
@@ -81,18 +81,33 @@ All spacing is a multiple of 8. No arbitrary values.
 
 ## Animation
 
-**One system: Framer Motion only.** No JS-based scroll observers. No CSS reveal classes.
+**One system: Framer Motion only.** No CSS reveal classes.
 
 All shared variants live in `lib/motion.ts`:
 
 ```ts
-fadeUp  — { opacity: 0, y: 24 } → { opacity: 1, y: 0 }
-stagger — wraps fadeUp children, 0.1s between each
-ease    — { duration: 0.7, ease: "easeInOut" }
+fadeUp(delay)  — { opacity: 0, y: 24 } → { opacity: 1, y: 0, transition: { delay } }
+ease           — { duration: 0.7, ease: "easeInOut" }
 ```
 
-**Hero sections** → `initial="hidden" animate="visible" variants={stagger}`  
-**All other sections** → `initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}`
+### Layer System — delay by element type
+
+Every element declares its own layer. No guessing, no feeling.
+
+| Layer | Element                        | Delay  |
+| ----- | ------------------------------ | ------ |
+| 0     | Section marker (01 — About)    | `0s`   |
+| 1     | Heading                        | `0.1s` |
+| 2     | Body text / primary content    | `0.2s` |
+| 3     | Secondary text / stat row 1    | `0.3s` |
+| 4     | Stat row 2 / supporting detail | `0.4s` |
+| 5     | Stat row 3 / CTA               | `0.5s` |
+
+### Trigger rules
+
+- **All sections** → `whileInView="visible" viewport={{ once: true, margin: "-72px" }}`
+- **Hero** → same as above, `whileInView` not `animate`
+- **Footer** → triggered by `scrollYProgress >= 0.99` via `useMotionValueEvent`
 
 ---
 
@@ -102,7 +117,7 @@ ease    — { duration: 0.7, ease: "easeInOut" }
 - **Section-specific** → defined locally in the section file
 - **No inline styles** — Tailwind classes only
 - **No new CSS classes** — only keyframes and pseudo-elements in `globals.css`
-- **No `padding-top` offsets** for navbar — handled globally via `scroll-padding-top`
+- **No `padding-top` offsets** for navbar — handled via `-72px` offset in `handleNav`
 
 ---
 

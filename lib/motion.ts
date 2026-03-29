@@ -1,16 +1,20 @@
-import type { Variants } from "framer-motion";
+import type { Transition } from "framer-motion";
 
-// Shared fade-up variant — used by every section
-export const fadeUp: Variants = {
+// Base transition
+export const ease: Transition = { duration: 0.7, ease: "easeInOut" };
+
+// fadeUp with explicit layer delay — every element declares its own layer
+export const fadeUp = (delay = 0) => ({
   hidden:  { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0  },
-};
+  visible: { opacity: 1, y: 0, transition: { ...ease, delay } },
+});
 
-// Stagger container — automatically staggers fadeUp children by 0.1s
-export const stagger: Variants = {
-  hidden:  {},
-  visible: { transition: { staggerChildren: 0.1 } },
+// Layer delays — refer to DESIGN_SYSTEM.md
+export const layer = {
+  marker: 0,
+  heading: 0.1,
+  body:    0.2,
+  stat1:   0.3,
+  stat2:   0.4,
+  stat3:   0.5,
 };
-
-// Base transition — override delay per child if needed
-export const ease = { duration: 0.7, ease: "easeInOut" as const };
