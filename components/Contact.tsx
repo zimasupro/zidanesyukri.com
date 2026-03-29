@@ -1,9 +1,9 @@
 export default function Contact() {
     return (
-      <section id="contact" className="py-[120px] text-center relative z-[1]">
-        <div className="max-w-[1100px] mx-auto px-8">
+      <section id="contact" className="py-30 text-center relative z-1">
+        <div className="max-w-275 mx-auto px-8">
           <span className="font-mono text-[11px] text-[#525260] tracking-[0.15em] uppercase mb-6 block reveal">04 - Lets talk</span>
-          <h2 className="font-[family-name:var(--font-bebas)] text-[clamp(56px,10vw,120px)] text-[#f0f0f5] leading-[0.9] mb-10 reveal reveal-delay-1">
+          <h2 className="font-bebas text-[clamp(56px,10vw,120px)] text-[#f0f0f5] leading-[0.9] mb-10 reveal reveal-delay-1">
             Lets<br />Build<br />
             <span className="text-[#10a37f]">Together</span>
           </h2>

@@ -4,12 +4,6 @@ import { motion } from "framer-motion";
 import PrimaryButton from "./ui/PrimaryButton";
 import { ArrowRight } from "lucide-react";
 
-if (typeof window !== "undefined") {
-  window.onerror = (msg) => {
-    document.body.insertAdjacentHTML("afterbegin", `<div style="background:red;color:white;padding:10px;position:fixed;top:0;z-index:9999">${msg}</div>`);
-  };
-}
-
 // ─── Animation Config ─────────────────────────────────────────────────────────
 
 const fadeUp = (delay: number) => ({
@@ -22,13 +16,8 @@ const fadeUp = (delay: number) => ({
 
 function AvailableBadge() {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 2, delay: 0 }}
-      style={{ background: "red", color: "white", padding: "20px" }}
-    >
-      DEBUG - CAN YOU SEE ME?
+    <motion.div {...fadeUp(0)} className="inline-flex items-center gap-2 font-mono text-[11px] text-[#10a37f] tracking-[0.12em] uppercase mb-7 before:content-[''] before:w-5 before:h-px before:bg-[#10a37f]">
+      Available for new projects
     </motion.div>
   );
 }

@@ -1,6 +1,6 @@
 export default function Footer() {
     return (
-      <footer className="flex items-center justify-between px-8 py-7 border-t border-[#1e1e24] relative z-[1]">
+      <footer className="flex items-center justify-between px-8 py-7 border-t border-[#1e1e24] relative z-1">
         <span className="font-mono text-[11px] text-[#525260]">
           © 2025 Zidane Syukri
         </span>
